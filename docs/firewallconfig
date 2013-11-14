@@ -1,0 +1,108 @@
+#!/bin/bash
+#This script involves many refernces, refer Blockit-final-report to
+#have the information about the list of refernces
+#defining some tables for logging of mischevious packets
+#Creating a new chain
+# LnD(Log and Deny)
+lowerlimit=10000
+upperlimit=100000
+
+modprobe ip_tables
+modprobe ip_conntrack
+modprobe ipt_state
+
+iptables -N LnD			# Define custom DROP chain
+
+iptables -A LnD -p tcp -m limit --limit 1/s -j LOG --log-prefix "[TCP drop] " --log-level=info
+iptables -A LnD -p udp -m limit --limit 1/s -j LOG --log-prefix "[UDP drop] " --log-level=info
+iptables -A LnD -p icmp -m limit --limit 1/s -j LOG --log-prefix "[ICMP drop] " --log-level=info
+iptables -A LnD -f -m limit --limit 1/s -j LOG --log-prefix "[FRAG drop] " --log-level=info
+iptables -A LnD -j DROP
+
+#
+# This custom chain logs, then REJECTs packets.
+#
+# LnR(Log and Reject)
+iptables -N LnR			# Define custom REJECT chain
+
+iptables -A LnR -p tcp -m limit --limit 1/s -j LOG --log-prefix "[TCP reject] " --log-level=info
+iptables -A LnR -p udp -m limit --limit 1/s -j LOG --log-prefix "[UDP reject] " --log-level=info
+iptables -A LnR -p icmp -m limit --limit 1/s -j LOG --log-prefix "[ICMP reject] " --log-level=info
+iptables -A LnR -f -m limit --limit 1/s -j LOG --log-prefix "[FRAG reject] " --log-level=info
+iptables -A LnR -j REJECT
+
+# A chain to handle a possible attack
+iptables -N DDoS            
+                                                                                                                  
+iptables -A DDoS -m limit --limit 1/s --limit-burst 10 -j RETURN
+iptables -A DDoS -j LOG --log-prefix "[DOS Attack/SYN Scan?] "
+	iptables -A DDoS -j DROP
+
+iptables -N Banned	
+
+iptables -A Banned -p tcp -m limit --limit 1/s -j LOG --log-prefix "[TCP Banned] " --log-level=info
+iptables -A Banned -p udp -m limit --limit 1/s -j LOG --log-prefix "[UDP Banned] " --log-level=info
+iptables -A Banned -p icmp -m limit --limit 1/s -j LOG --log-prefix "[ICMP Banned] " --log-level=info
+iptables -A Banned -f -m limit --limit 1/s -j LOG --log-prefix "[FRAG Banned] " --log-level=info
+iptables -A Banned -j DROP
+
+#This rule is to limitt ICMP packets like ping
+#beyond some defined threshold rate
+#This will take care of ping attack
+iptables -N icmpin
+iptables -A icmpin -p icmp -m limit --limit 1/second -j ACCEPT
+iptables -A icmpin -p icmp -j LnD
+
+# Enable TCP SYN Cookie Protection
+echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+
+#----------------------------------------------------------------#
+# Here in we will try to mitigate the syn flood of DOS attack
+# This is the basic methodology/Algorithm
+# 1) This is going to limit the number of syns per second.
+#   (This is not going to solve the problem because what really matters are the inactive connections).
+# 2) Going to scan for the unreplied connections or expected connections and remove them and also blacklist them.
+# 3) If the request comes again from the blacklisted ones then it would reply that with delay.
+iptables -N tcpout
+iptables -A tcpout -p tcp --tcp-flags SYN,RST,ACK SYN,ACK -j DDoS
+iptables -A tcpout -m recent --seconds 60 --cstatus EXPECTED --name badguy --set -j Banned
+iptables -A tcpout -m recent --seconds 60 --name badguy -j LnD
+
+#----------------------------------------------------------------#
+#This is to mitigate DoS attacks from the single source
+iptables -N tcpin
+iptables -A tcpin -p TCP -m state --state ESTABLISHED,RELATED  -j ACCEPT
+
+# The logic here is there should not be more than 3 transactions in 20 seconds 
+# not more than 6 in 60 previous seconds
+#Limiting the data transfer for a single connection
+iptables -A tcpin -m recent --set 
+iptables -A tcpin -m recent --update --seconds 60 -m connbytes --connbytes $lowerlimit:$upperlimit -j LnD
+iptables -A tcpin -m recent --update --seconds 20     --hitcount 3     -j LnD
+iptables -A tcpin -m recent --update --seconds 60     --hitcount 6     -j LnD
+iptables -A tcpin -m recent --update --seconds 250    --hitcount 20    -j LnD
+iptables -A tcpin -m recent --update --seconds 2100   --hitcount 50    -j LnD
+iptables -A tcpin -m recent --update --seconds 20000  --hitcount 200   -j LnD
+# Idea borrowed from reference []
+iptables -A tcpin -p TCP -j LnD
+
+#----------------------------------------------------------------#
+#Here in we will try to blacklist all the bad ips and ports
+if [ -f /etc/firewall/firewall.banned ]; then
+    while read BANNED; do
+	iptables -A INPUT -i $EXTERNAL_INTERFACE -s $BANNED -j Banned
+	iptables -A INPUT -i $EXTERNAL_INTERFACE -d $BANNED -j Banned
+	iptables -A OUTPUT -o $EXTERNAL_INTERFACE -s $BANNED -j Banned
+	iptables -A OUTPUT -o $EXTERNAL_INTERFACE -d $BANNED -j Banned
+	iptables -A FORWARD -d $BANNED -j Banned
+        iptables -A FORWARD -s $BANNED -j Banned
+	done < /etc/firewall/firewall.banned
+    echo "firewall: Banned addresses added to rule set"
+    
+else
+    echo "firewall: Banned address/network file not found."
+fi  
+iptables -A INPUT -p ICMP  -j icmpin
+iptables -A INPUT -p TCP   -j tcpin
+iptables -A OUTPUT -p TCP -j tcpout
+
