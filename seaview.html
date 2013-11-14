@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<link rel="stylesheet" href="style/global.css" type="text/css"/>
+
+<body>
+<div class="heading">
+<p class="name">Vihari Piratla</p>
+<p>
+&nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+</p>
+</div>
+
+<hr>
+Seaview:<br>
+Guide: <a href="http://xenon.stanford.edu/~hangal/">Dr. Sudheendra Hangal.</a><br>
+Seaview is a log file visualization software. The objective of the software is to aid the programmer in debugging, by aiding the visualization of log files. 
+<p>
+  The java byte code shall be instrumented with <a href="https://github.com/hangal/unifi">Unifi</a> to infer unites and dimensions of various variables across class files. Instrumentation step also replaces the log statements that dump also the identity of the variable along with log. 
+</p>
+<p>
+  This instrumented software when run will also dump anchors of the variables. Seaview then parses the log file supplemented with variable infos. An user can then avail these set of features:
+  <ul>
+    <li>
+      Visualise a colored log file, coloured according to the dimension, unit or variable.
+  </li>
+    <li>
+      Visualise summary of variables that are grouped on variable or dimension or unit.
+      </li>
+    <li>
+      Filter and group the logs based on variable or dimension or unit.
+    </li>
+    <li>
+      Browse the code by clicking on the variables.
+    </li>
+  </ul>
+</p>
+
+This will ease the analysis of the log files and hopefully subside to some extent the pain of debugging/program correctness. Further information regarding the software can be found <a href="https://github.com/vihari/Seaview">here</a><br>
+live demo <a href="http://vihari.github.io/Seaview/">here</a>, use the demo with test logs in the repository. <br> 
+
+fall backs of this sw are:<br>
+<ul>
+<li>
+Though one can efficiently load/filter and group log file in constant time complexity. Things get slow and inefficient when dealing with log files more than 100 MB.
+</li>
+<li>
+Also when instrumenting the software, supplementary info that unify dumps can sometimes be huge when the source code is large. 
+</li>
+</ul>
+<br>
+<strong>Snapshots</strong><br>
+<table class="snaps">
+<tr>
+<td style="width:33.333333333333%;padding:0 15px">
+<img src="images/coloredlog.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;height:200px;" alt="Picture">
+</td>
+
+<td style="width:33.333333333333%;padding:0 15px">
+<img src="images/plot+colored.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;height:200px;" alt="Picture">
+</td>
+
+<td style="width:33.333333333333%;padding:0 15px">
+<img src="images/Summarychart.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;height:200px;" alt="Picture">
+</td>
+</tr>
+<table>
+
+sws used in Seaview:
+Slickgrid, d3.js, syntaxhighlighter, zip.js, jquery.
+
+<hr>
+Vihari Piratla<br>
+viharipiratla@gmail.com
+</body>

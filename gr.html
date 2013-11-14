@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<link rel="stylesheet" href="style/global.css" type="text/css"/>
+
+<body>
+<div class="heading">
+<p class="name">Vihari Piratla</p>
+<p>
+&nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+</p>
+</div>
+
+<hr>
+
+<strong>Gesture recognition</strong> <br>
+Guide: <a href="http://www.cse.iitm.ac.in/~hema/">Prof. Hema Murthy</a><br>
+The purpose of the project is to detect and classify gestures in real time 
+with no constraints on the image sensor or computational device. Care is 
+taken to make it computationally feasible.
+<a href="docs/PR_Project_Report_Group4.pdf">This</a> document briefly describes the work done. 
+Steps:
+<ol>
+<li>Image data sets of seven different hand gestures are collected from 
+the frames of the videos taken through webcam. These data sets are 
+taken each as a different class. </li>
+<li> The images sets (rgba images) collected are converted into hsv 
+images, which are more robust in lightening conditions, skin color 
+quality and are more useful in gesture recognition type of problems.</li> 
+<li> These hsv images obtained are then grey scaled using threshold 
+values of h, s, and v.</li> 
+<li> Those grey scale images are then smoothened for noise reduction.</li> 
+<li> Then edge detection is performed, which detects hand from rest of 
+the image, and then contour is plotted around the detected edge.</li> 
+<li> The two dimensional points on the contour are extracted as the 
+features of that particular image</li>
+<li> K Means clustering and SVM for classification of gestures</li>
+</ol><br>
+<img src="images/gesture-recognition.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;" alt="Picture"></img>
+<br>
+With a particular set of gestures (fig. b,d,f ) an accuracy of 91.5% was observed. <br>
+Sorry, I seem to have lost the code :(
+
+
+<hr>
+Vihari Piratla<br>
+viharipiratla@gmail.com
+</body>
