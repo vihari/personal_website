@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="style/global.css" type="text/css"/>
+
+    <script src="xbps-min-0.8.js"></script>
+    <script src="libs/orbitcam.js"></script>
+    <script src="visualiser.js"></script>
+    <title>Intern Report</title>
+  </head>
+  <body onLoad="fillCanvases()" style="font-family:helvetica;font-size:10pt">
+
+  <body>
+    <div class="heading">
+      <p class="name">Vihari Piratla</p>
+      <p>
+	&nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight"&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+																				    </p>
+</div>
+
+<hr>
+
+    <bold>This is the summary of my work at GE research bangalore from June to August 2013.</bold><br>
+    <p>As a part of project I had to implement <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=5152473&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D5152473">FPFH</a>(Fast Point Feature Histogram)<br>
+    Though this is already implemented in <a href="pointclouds.org">PCL</a> library to some extent, it is not a full replica of the paper.<br>
+    Basically fpfh based registration involves these steps:<br>
+    <ol>
+      <li>Feature extraction: Features are extracted over all the points in the cloud.</li>
+      <li>Feature Filtering: Filtering points with more distinctive features.</li>
+      <li>Feature Matching: The above two steps are repeated over both the clouds that one wish to register and every feature in the input cloud is queried in the target cloud for best match.</li>
+      <li>Registration: A ransac based sampling and registration followed by levenberg marquadt based icp is emploed here.</li>
+    </ol>
+    Lets dig them a bit deeper, along with results. The datasets that are used here to demonstrate results are stanford bunny datasets and are bunny000.pcd and bunny045.pcd.
+    <ol>
+      <li>Feature extraction: Feature signature for all the points in the cloud is computed with pcl's <a href="http://docs.pointclouds.org/trunk/classpcl_1_1_f_p_f_h_estimation.html">FPFHEstimation</a>. The signature is basiclly a histogram that captures the neighbourhood information of a point. For more information on how the fpfh signature is computed and made faster than PFH one can either refer <a href="http://pointclouds.org/documentation/tutorials/fpfh_estimation.php">this</a> or the paper.</li>
+      <li>Feature Filtering: In the paper the author claims that one can filter in just 10 percent of features by thresholding with &#946 as 1 in &#181 &#177 &#946*&#931. For the features to be spanning across scale and to induce some scale invariance, we select features which are persistant across scales. For distance between features KL distance is used as was discussed in the paper and also it is observed that eucledian distance is not a good choice.
+	Below one can find the results for the same: 
+	<br>color coding: factor <- distance of the feature from mean feature/std_dev.<br>
+	if factor>3 color = red. >2 color = green, >1 yellow. Also the original cloud is shown for reference(please ignore the colors of this cloud).
+      </li>
+
+      <canvas id="canvas_bandCloud" style="border: 1px solid black;" width = "400" height="400"></canvas>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<canvas id="canvas_original" style="border: 1px solid black;" width = "400" height="400"></canvas>
+      
+      <li>Feature Matching: Once the persistent features are selected in both the clouds individually, a feature cloud is built and indexed with KDTree. For every feature in the source feature cloud is queried in the target feature space and best matches are preserved.<br>
+	[Sorry no images here]
+      </li>
+
+      <li>Registration: The author in the paper performs a Sample consensus initial estimate(sac_ia) with the matching points and then followed by levenberg marquadt based ICP. <a href="http://docs.pointclouds.org/trunk/classpcl_1_1_sample_consensus_initial_alignment.html">sac_ia</a> is already implemented in pcl, sac_ia is a simple approach and is further simplified in the implementation(as of PCL 1.7) like: the original algorithm asks one to arbitrate over different best matches of the same point which is not implemented. <br> 
+The results were poor with sac_ia PCL1.7 code, this is because the error metric employed tries to minimize the distance between the clouds rather than between the initial good matches that one has.<br>
+[TODO]Refer to the bug report of PCL here[TODO]<br>
+I changed this function to minimize the distances between the matches rather than between clouds and got better results.<br>
+This is then followed ICP.<br>
+Here are the results after the registration:
+	<br>In the second cloud both the clouds(red and green) are shown overlapped.
+      </li>
+
+      <canvas id="canvas_unregistered" style="border: 1px solid black;" width= "400" height="400"></canvas>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      <canvas id="canvas_registered" style="border: 1px solid black;" width ="400" height="400"></canvas>      
+
+    </ol>
+    To exhaustively report what is done theres also normal computation and Uniform sampling of cloud for feature signature computation and reduce the computational complexity respectively.
+    </p>
+    <!--<code>Enter the full path to the pcd file</code>
+    <input type="text" id="PCDPath" value="pcd path" onkeydown="if (event.keyCode == 13) document.getElementById('trigger').click()"></input>
+    <input type="button" id="trigger" value="Visualize!" onclick="visualize()"></input>-->
+    
+    <footer>
+      <p>Posted by: Vihari Piratla &#169 Point clouds were rendered with XB-PointStream JS library with some changes to render pcd files.</p>
+      <p><time pubdate datetime="2013-08-17"></time></p>
+    </footer>
+  </body>
+  <script>
+    //document.getElementById('canvas').width = screen.width-100;
+    //document.getElementById('canvas').height = screen.height-200;
+  </script>
+</html>
