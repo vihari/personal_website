@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<link rel="stylesheet" href="style/global.css" type="text/css"/>
+<title>3D reconstruction on mobile smart phones</title>
+
+<body>
+<div class="heading">
+<p class="name">Vihari Piratla</p>
+<p>
+&nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+</p>
+</div>
+
+<hr>
+3D reconstruction on smart phones:<br>
+Guide: <a href="http://faculty.iitmandi.ac.in/~arnav/">Dr. Arnav Bhavsar </a> <a href="http://faculty.iitmandi.ac.in/~addileep/">Dr. Dileep A. D.</a><br>
+Follow the code <a href="https://github.com/vihari/3d-mapping">here</a>.<br>
+<strong>Dataset</strong><br>
+We generated a dataset for testing. Though there are no assumptions made about the object we also want to procure sensor data along with images. This is how the dataset mostly looks and we wish to reconstruct pepsi can in the view. <br>
+<div style="text-align:center">
+  <img src="images/image-002.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+</div>
+<br>
+<p>
+  <strong>Object segmentation</strong><br>
+  This is one of the crucial steps as it contributes to reduce computational cost(we will see why in a while). There are various approaches to object segmentation based most of them need a threshold or are based on color. Here to employ a most generic method we did an edge detection over dense flow map obtained between frames temporally and hence spatially seperated. We used Farneback method to extract dense flow map. To segment the image we also tried to make use of easy interaction capability on a mobile device, hence user selects right threshold for canny edge detection such that he sees no edge inside the desired object. He then selects right rectangle that is then propagated all through the image in BFS fashion until it encounters an edge, the results of such segmenatation are shown below.  
+</p>
+<div style="text-align:center">
+  <img src="images/image-002.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+  <img src="images/mask.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+  <img src="images/segment.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+</div>
+
+<p>
+  <strong>Object tracking</strong><br>
+  To track the object through images, we initialise features on the image over the mask defined. We use shi tomasi minMaxEigen based features and lucas kanade to track the features through the video. Affine transformation between the images is calculated from the tracked features, we need only 3 feature correspondences to find this transfromation. As we have more than 3 feature correspondences we estimate feature correspondences from one set and try to minimise error so that rigid body constraint is maintained. The resulsts of the same are shown below. 
+</p>
+<div style="text-align:center">
+  <img src="images/t1.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+  <img src="images/t2.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+  <img src="images/t3.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: auto; margin-right: auto; border-width:0;height:200px;width:300px;" alt="Picture"></img>
+</div>
+As can be seen above, the problem is that the mask deteriorates in shape with time. This is because of so called dead reckoning error that is error in estimation in each estimation accumulates, this is a common problem and can be subsided by employing global optimisation methods. We tried global estimation with sensor readings like pitch, roll, yaw measurements, this only worsened the situation as these readings are far more sensitive. Other possible solution is to redo edge detection to redine the mask with the same threshold set in the initial set. <br>
+
+<p>
+  <strong>Mobile/camera tracking</strong><br>
+  Many SLAM[MonoSLAM, Scalable SLAM, DTAM] based methods and PTAM solve this particular problem, also called Visual odometry. These methods suprisingly neglect the sensore readings which we want make use of. Position estimates from sensor readings alone demands for double integration of accelerometer readings and hence are prohibitively erroneous.
+
+</p>
+<hr>
+Vihari Piratla<br>
+viharipiratla@gmail.com
+</body>

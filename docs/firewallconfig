@@ -102,6 +102,7 @@ if [ -f /etc/firewall/firewall.banned ]; then
 else
     echo "firewall: Banned address/network file not found."
 fi  
+
 iptables -A INPUT -p ICMP  -j icmpin
 iptables -A INPUT -p TCP   -j tcpin
 iptables -A OUTPUT -p TCP -j tcpout
