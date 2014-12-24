@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<link rel="stylesheet" href="style/global.css" type="text/css"/>
+
+<head>
+<title>Bspoke</title>
+</head>
+<body>
+<div class="heading">
+<p class="name">Vihari Piratla</p>
+<p>
+&nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+</p>
+</div>
+
+<hr>
+
+Guide(s): Dr. Sudheendra Hangal, John Temple <br>
+<p>
+Due to Information explosion, there is lots of content being added to
+the web everyday and it is getting increasing difficult to find
+relevant news. Though, news recommender/aggregator softwares 
+such as Google News exist, they are mostly based on the popularity of 
+the news and with very little personalisation such as location and interested
+categories (Technology, Health, etc.). We felt the need for a better
+ news recommender and started the Bspoke project. 
+</p>
+This article summarise various experiments I have performed in
+relation to the project.<br>
+<p>
+  Bspoke offers the following unique features.
+<ul>
+  <li> 
+    It develops a rich and implicit user-profile by reading
+    users' data on various platforms such as Facebook, Twitter,
+    LinkedIn, Personal Websites, Emails, Browser History, and 
+    personal documents (only Tika parsable documents are
+    considered).
+  </li>
+  <li>
+    It maintains a transparent user-profile and provides various 
+    means to control this profile.
+  </li>
+  <li> 
+    It is a client based system. Bspoke uses only local resources
+    of the user and does not communicate with any other external server.
+  </li>
+  <li> 
+    It is content based. In contrast to other popular 
+    recommenders, which are mostly based on methods such as Collaborative 
+    Filtering, Bspoke actually reads the content of the article to
+    decide its relevance and also explains why the article could be
+    interesting. 
+  </li>
+</ul>
+</p>
+<p>
+Bspoke has two major components
+<ul>
+<li>User profile</li>
+<li>News sources</li>
+</ul>
+<h3>User profile</h3>
+<p>
+  What should a good user profile contain for a content based news
+  recommender? <br>
+  Bspoke represents user-profile as weighted term vector, this was also 
+  the popular form of representation in the past, for example, in YourNews 
+  system 
+  (<a href='http://www.wwwconference.org/www2007/papers/paper602.pdf'>Ahn et al., 2007</a>).
+</p>
+<p>
+  Can we automatically build a user-profile that is aware of every
+  aspect of the person from work to entertainment related?<br>
+  Bspoke considers users' data on different platforms as described
+  above. It considers both free text and structured content (such
+  as Likes, Location, etc. on Facebook) from these sources. Free text from
+  these sources is processed to extract Singular Nouns and few
+  filtered nouns, which are then added to the user-profile.
+</p>
+<p>
+  How can we easily expand this profile?<br>
+  User profile generated from these sources generally contains a few
+  hundred terms, to automatically expand this profile Bspoke uses
+  Wikipedia. Bspoke disambiguates terms in the user profile with Wikipedia 
+  topics by a context
+  match between the Wikipedia page and personal text. The context of a
+  term from personal text
+  contains <i>person</i>, <i>organisation</i>, and <i>geographical
+  location</i>, type entities
+  that the term co-occurred within the free text. The Wikipedia pages
+  are further expanded, as explained below.
+</p>
+<p>
+  Given a bunch of Wikipedia topics of interest, how to recognise
+  other relevant topics?<br>
+  <i>If one is interested in Stanford University and Google, then
+  Sergey Brin and Larry Page could also be of interest.</i><br>
+  Below is a sketch of various methods I have attempted.<br>
+  <b>All the hyperlinks on a Wikipedia page</b>: The hyperlinks on a
+  Wikipedia page need not all point to relevant topics. Because the
+  content is human created, there can be many spurious references. For
+  example <i>Harry Potter</i> Wikipedia page may point
+  to <i>Chess</i>.
+  <br> 
+  <b>Symmetric hyperlinks on a Wikipedia page</b>: Only considering
+  the links which are mutual gave better results. For example, in the
+  above case, <i>Chess</i> is not considered relevant to <i>Harry
+    Potter</i> because the <i>Chess</i> page does not have a link to 
+  <i>Harry Potter</i>.
+  <br>
+  <b>PageRank over all the Wikipedia pages</b>: To rank the links
+  on various pages, we performed Pagerank with seed pages as the
+  Wikipedia pages of interest. We observed that the performance is no 
+  better than the "symmetric hyperlinks" method above; the main reason
+  being that the noisy terms (links) form a network of
+  interconnections, which increase the rank of the noisy terms.
+  <br> 
+  Overall, method 2 above performed better.
+</p>
+<b>Recommendation</b><br>
+An article is scored and recommended based on relevance score. 
+Relevance score is computed by the dot product of weighted term
+vector of user profile and weighted (based on TF-IDF) term vector of 
+the article.  
+</p>
+<p>
+  <h3>News sources</h3>
+  Is there a single representative source of news?
+<p>
+  <b>Twitter</b><br>
+  Bspoke soft follows few hashtags and users, which are
+  explicitly specified by the user, on Twitter. News from Twitter filtered
+  by hashtags served as a window into what's new in the world. In
+  contrast to many other news recommenders that recommends content
+  from various news sources, Twitter is more diverse and organic. Problems with
+  such a system are as follows
+  <ol>
+    <li>
+      Hashtags are human created and change at a rapid pace. People
+      come up with different hashtags for the same event or
+      topic. The quality of news is directly dependant on the hashtags
+      chosen, they have to be diverse and fairly representative of one's
+      interests, the rich user profile is of little use otherwise. 
+      Discovering proper hashtags is in itself a very tough job.
+    </li>
+    <li>
+      It takes even a computer (single-threaded process on 2.4GHZ
+      processor) several hours to read enough number of tweets to
+      suggest interesting news, that would otherwise be missed.
+    </li>
+  </ol>
+  <b>Try the software <a href='http://mobisocial.stanford.edu/bespoke/' target='_blank'>here</a>.</b><br>
+  Professional journalists at Stanford University tested this version of the software. <br>
+</p>
+<p>
+  <b>UI centric spin</b><br>
+  Realising the difficulty in finding proper news sources, we explored
+  other ways of using the profile. It is hard to find relevant
+  information on some web pages such as NYTimes.com,
+  washingtonpost.com, some News Aggregators, Google Search, etc. We
+  built a Google Chrome Extension to re-render any
+  web pages for easier content discovery and also serves as a quick
+  summariser. On a web page, Bspoke tools
+  collect and read all the links on the page to find any relevant
+  information. On Google Search page, Bspoke reads results beyond 
+  the first page to find relevant articles.<br> 
+  <b>Try out the software <a href='http://muse.stanford.edu:9000/bespoke/welcomepage.jsp' target='_blank'>here</a></b>.
+</p>
+</p>
+<hr>
+viharipiratla@gmail.com
+</body>
