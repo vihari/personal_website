@@ -38,3 +38,6 @@ div.video{
 	position: relative;
 	left: 10px;
 }
+table{
+	border-spacing: 12px;
+}
