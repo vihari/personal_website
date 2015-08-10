@@ -1,0 +1,64 @@
+isLowerVersion = function(jq){
+	var version = jq.fn.jquery;
+	var cversion = "1.8.3";
+	fields = version.split("\.");
+	cfields = cversion.split("\.");
+	if(fields.length>cfields.length)
+		return false;
+	if(fields.length<cfields.length)
+		return true;
+	for(var i=0;i<cfields.length;i++)
+		if(cfields[i]>fields[i])
+			return true;
+	return false;
+}
+load = function () { 
+
+    if (((typeof($)=="undefined")&&(typeof(jquery)=="undefined"))||(isLowerVersion($))) { // typeof jQuery=='undefined' works too
+       if(typeof($)!=="undefined")
+       	  $ = undefined;
+       console.log("Inserting jquery script");
+       script = document.createElement( 'script' );
+	   console.log("Loading jquery script");
+       script.src = 'https://muse.stanford.edu:8443/bespoke/js/jquery-1.8.3.js';
+       script.onload=loadCookieScript;
+       document.body.appendChild(script);
+    } 
+    else {
+    	 loadCookieScript();
+    }
+ 
+    function loadCookieScript() {
+       script = document.createElement( 'script' );
+       console.log("Loading jquery cookie script");
+       script.src = 'https://muse.stanford.edu:8443/bespoke/js/jquery_cookie/jquery.cookie.js';
+       script.onload=loadFancyBox;
+       document.body.appendChild(script);
+    }
+    
+    function loadFancyBox(){  
+       style = document.createElement('link');
+       style.rel = "stylesheet";
+       style.href = "https://muse.stanford.edu:8443/bespoke/fancybox/source/jquery.fancybox.css";
+       document.body.appendChild(style);
+      
+       script = document.createElement( 'script' );
+       console.log("Loading jquery cookie script");
+       script.src = 'https://muse.stanford.edu:8443/bespoke/fancybox/source/jquery.fancybox.js';
+       script.onload=loadBspokeAnalyser;
+       document.body.appendChild(script);
+    }
+
+    function loadBspokeAnalyser(){
+       script = document.createElement( 'script' );
+       console.log("Loading analyser script");
+       script.src = 'https://muse.stanford.edu:8443/bespoke/js/analyser.js';
+       script.onload=placeCall;
+       document.body.appendChild(script);
+    }
+
+    function placeCall(){
+    	placeRequest();
+    }
+};
+load();
