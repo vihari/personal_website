@@ -5,7 +5,7 @@
   <div class="heading">
     <p class="name">Vihari Piratla</p>
     <p>
-      &nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">about</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp Publications &nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
+      &nbsp&nbsp<a href="index.html">Home</a>&nbsp&nbsp/&nbsp&nbsp <a href="about.html">About</a> &nbsp&nbsp/&nbsp&nbsp <a href="cv.html">CV</a> &nbsp&nbsp/<span class="highlight">&nbsp&nbsp <a href="projects.html"> Projects </a>&nbsp&nbsp</span>/&nbsp&nbsp<a href="publications.html"> Publications </a>&nbsp&nbsp/&nbsp&nbsp OtherLinks &nbsp&nbsp/&nbsp&nbsp Blog
     </p>
   </div>
 
@@ -20,7 +20,8 @@
 	  <a href="btp.html">3D reconstruction on smart phones</a><br>
 	  Guide: Dr. Arnav Bhavsar and Dr. Dileep A. D.
 	  <br> 
-	   This is an ongoing project which aims to design a real-time algorithm capable of 3d reconstruction of any object on mobile camera phones. Various modules of the project are object segmentation, object tracking, camera tracking, point cloud extraction of the object, point cloud registration and surface reconstruction. Object segmentation and object tracking modules are thorough, with some lags in tracking modules. Camera tracking from mobile sensor reading i.e. gyros and accelorometers alone is awful and system similar to <a href="http://www.robots.ox.ac.uk/~gk/PTAM/">PTAM</a> must be used inorder to improve on the results.
+	   I worked in a team of three to design a real-time algorithm capable of 3D reconstruction of small to medium scale objects on smart phones. <br>
+	   I designed an algorithm similar to <a href='https://en.wikipedia.org/wiki/GrabCut'>GrabCut</a> to segment and track the target object. By identifying the target object in every frame, we reduced the required computation. We implemented the system described in <a href="http://www.robots.ox.ac.uk/~gk/PTAM/">Parallel Tracking and Mapping (PTAM)</a> to track the camera and build the 3D structure of the environment. This was finally followed by point cloud registration and surface reconstruction to build the 3D model of the target object.
 	</div>
       </td>
   </table>
@@ -36,8 +37,9 @@
 	  <a href="seaview.html">Seaview</a><br>
 	  Guide: Dr. Sudheendra Hangal.
 	  <br> 
-	  Seaview is a log file visualization software. The objective of the software is to aid the programmer in debugging, by aiding the visualization of log files. 
-	  The java byte code shall be instrumented with <a href="https://github.com/hangal/unifi">Unifi</a> to infer unites and dimensions of various variables across class files. Instrumentation step also replaces the log statements that dump also the identity of the variable along with log. 
+	  Seaview is a log file visualization software to make the process of debugging with log files simpler with data visualization techniques.
+	  Seaview depends on a program analysis tool called <a href="https://github.com/hangal/unifi">Unifi</a> to instrument the log. 
+	  The log file so instrumented contains semantics of the variables in the log, which enables the various summarisation plots over the log.
 	</div>
       </td>
   </table>
@@ -53,10 +55,9 @@
 	<div>
 	  <a href="tsp.html">Touch Screen Projector</a><br>
 	  Guide: Dr. Bharat Singh Rajpurohit, Dr. Suman Kalyan Pal.<br>
-	  A project taken up for the design practicum course is a project on computer-human 
-	  interaction where a person can interact with the computing device through a 
-	  characteristic color emitting pen and a projector to project the screen of the 
-	  computing device on to any surface. Once projected, the surface can be used as Touch Screen; all this was done at a cost as low as 100 IndianRs. This project also bagged first prize in open-house of the same course.
+	  Around 2012, I built a prototype for a low cost smart board.
+	  The system can transform any flat surface such as a black board into an interactive surface where it is possible to draw, click, double click and scroll with a charecteristic light emitting pen.
+	  A camera tracks the position of the pen and transforms the position from camera coordinates to the projector coordinates through a calibration matrix. An appropriate event was then initiated over the transformed coordinates.
 	</div>
       </td>
     </tr>
@@ -73,10 +74,10 @@
 	<div>
 	  <a href="gr.html">Gesture Recognition</a><br>
 	  Guide: Prof. Hema Murthy<br>
-	  Gesture recognition from webcam images with SVM.
-	  5 gestures with least confusion and highest accuracy were recognised and isolated.
-	  This involved frames procurement -> skin color detection -> guassian error denoising -> convex hull detection(for data compression) -> K Means clustering -> SVM(support vector machines).
-	  Accuracy close to 90% was observed with the least confusion set of gestures.
+	  As a final project of "Pattern Recognition", I developed an application to enable basic interaction with a computer such as changing/pausing music tracks.
+	  It works by recognising static gestures through the webcam connected to the machine.
+	  I have idetified five gestures of least confusion - highest accuracy and demonstrated a working system that worked 90% of the time.
+	  I worked on various problems to develop the end to end pipeline such as skin color detection, guassian error denoising, convex hull detection (for data compression), K Means clustering followed by classification with SVM (Support Vector Machines) model.
 	</div>
       </td>
     </tr>
@@ -93,8 +94,9 @@
 	<div>
 	  <a href="GEReport/ge_intern.html">3D Registration</a><br>
 	  Guide: Navneet Subramanian.<br>
-	  As a part of my intern at Medical Imaging lab@GE research Bangalore, I implemented Fast Point Feature histogram for 3d registration.<br>
-	  My stint at Ge also includes work of removing defects from Ultra Sound images which involves plane detection thresholding, and vessel segmentation(Frangi vessel detection).
+	  I was briefly introduced to the domain of Medical Imaging during my internship with GE Global Research. 
+	  I devised an algorithm to remove certain types of distortions from Ultra Sound (US) images which involved improvising on Frangi Vessel Detection and RANSAC based plane thresholding techniques.
+	  For the major chunk of my time here, I worked on registration of US images in order to build the 3D model of the organ being scanned. I had success adapting the "Fast Point Feature histogram for 3d registration" to the task at hand.<br>
 	</div>
       </td>
     </tr>
@@ -111,8 +113,8 @@
 	<div>
 	  <a href="vo.html">Visual Odometry</a><br>
 	  Guide: Dr.Anil Kumar Sao<br>
-	  This project was a part of AUAV[Autonomous Unmanned Aerial Vehicle] project. 
-	  Visual Odometry is a problem of pose estimation of the vehicle from its video-feed. This project was an application of "Andrew Howard, Real time visual odometry for Autonomous Ground vehicles." 
+	  Around 2011-12, I led a team to build an Autonomous Unmanned Aerial Vehicle (AUAV). Tracking of the vehicle was one of the most crucial and basic tasks to achieve autonomous navigation. 
+	  We used a stereo camera rig to compute and supply us with the odometry information, we had adapted the system described "Andrew Howard, Real time visual odometry for Autonomous Ground vehicles" for this task. The odometry information is further fused with the information from other sensors with Kalman Filters.
 	</div>
       </td>
     </tr>
@@ -129,14 +131,15 @@
 	<div>
 	  <a href="tb_track.html">Spatial and Temporal tracking of tuberculosis in India</a><br>
 	  Guide: Dr. Sarita Azad, Dr. Ankit Bansal, Dr. Pietro Lio<br>
-	  This project is aimed at modeling the Endemic state of Tuberculosis and to predict the incidence of TB in the forthcoming year at various locations in the country.
+	  I dealt with an entirely different kind of data, models and tools for this project. The focus was to model and predict (forecast) the endemic (TB), given the data on Tuberculosis (TB) incidence over many regions in the past. 
+	  
 	</div>
       </td>
     </tr>
   </table>
 
   <hr>
-  <b>Blockit!</b> <br>
+<!--  <b>Blockit!</b> <br>
   Guide: <a href="http://faculty.iitmandi.ac.in/~tag/">Prof T.A.Gonsalves</a><br>
   The project was to make firewall rules to prevent DoS attack, only aggressive attacks were addressed and Low Rate DOS attack not considered. Our team came up with certain set of rules/algorithm which helped in mitigating the DoS attacks to a good extent.The firewall can be found <a href="docs/firewallconfig">here</a>.(This firewall rules are with iptables firewall of Linux distro.'s).
 
@@ -146,26 +149,26 @@
   The bot was to be present at IIT Bombay TechFest.
 
   <br><br>
-  <hr>
-  <b><i>Miscellaneous codes/scripts:</b></i>
-  <hr>
-  <br><br>
-  <b>parallelOnlineNMF</b><br>
+-->
+    <br><br> 
+ <h3>Miscellaneous code/scripts:</h3>
+   
+  <b>Parallel and Online implementation of NMF</b><br>
   Guide: Prof T.A.Gonsalves<br>
-  Non-linear matrix factorisation problem was altered to make it online and parallelizable. 
-  Code can be found <a href="https://github.com/vihari/parallelOnlineNMF">here.</a> 
+  Code for online and concurrent implementation of non-linear matrix factorisation (NMF) problem can be found <a href="https://github.com/vihari/parallelOnlineNMF">here.</a> 
   <hr>
 
+<!--
   <b>SongDownload</b><br>
   One of those scripts that I have written to ease the process of downloading regional songs, old enough to be on youtube with the least bandwidth usage and also ranks the results and prompts for confirmation before downloading. 
   More info and source <a href= "https://github.com/vihari/songDownload">here.</a>
 
   <hr>
+-->
 
-  <b>Threaded df</b><br>
-  Submitted as part an assignment for the course of concurrent programming.<br>
-  Threaded application to compute the total size of the file system. Task pools were used to implement this. Code can be found <a href="https://github.com/vihari/threadedCumulativeFilesize">here</a>.
+  <b>Threaded equivalent of 'df'</b><br>
+    Code to a threaded application to compute the total size of the file system using task pools can be found <a href="https://github.com/vihari/threadedCumulativeFilesize">here</a>.
   <hr>
-  Vihari Piratla<br>
-  viharipiratla@gmail.com
+  Vihari Piratla
+  <span style='float:right'>viharipiratla@gmail.com</span>
 </body>
