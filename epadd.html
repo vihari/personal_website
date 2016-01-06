@@ -14,17 +14,30 @@
 
 <hr>
 
-Guide(s): Dr. Sudheendra Hangal, John Temple <br>
 <p>
-When is the last time you paged through the second page in a web search? <br>
-Google finds more than 10M results for a query on say "ebola virus", but how many of them does an average user really look at? <br>
-A search query explains the information need, but the user's interest in general provide the broader and implied context for the need. 
-This forms the thesis of the project. <br>
-Bspoke can build a transparent user profile based on structured and unstructured content from the various social streams of the user. 
-A profile is a weighted vector of terms with weights proportional to the relevancy.<br>  
-Bspoke uses various concept extraction and matching techniques to re-rank the results in the top few pages of Google Search.<br>
-Find a quick demo here: <a href='http://muse.stanford.edu:9000/bespoke/' target='_blank'>http://muse.stanford.edu:9000/bespoke/</a> 
-
+<a href='https://library.stanford.edu/projects/epadd' target='_blank'>ePADD</a> is a digital archival and collection tool. 
+Similar to most of the tools that deal with unstructured content, Information Extraction tasks such as Entity Recognition and Linking are crucial for the software.
+<br>
+Supervised techniques for Named Entity Recognition (NER) suffer the domain adaptability problem. 
+The problem of domain adaptability is acute in ePADD, since every archive is from a different domain. 
+For more than a year now, I have researched on various solutions that can avoid this problem and can also preferably relax the other constraints of state-of-art NER techniques such as numerous coarse types (PERSON, LOCATION, ORGANISATION) and scalability across languages.
+<br>
+<br>
+We have adopted an approach similar to a rule-based system with the difference that the rules are automatically inferred during training. 
+Also, the rules are patterns on the entities and do not look at the surrounding context of the entity. The system behaves like a human by inferring rules like <i>a place followed by "times" is a newspaper</i>, <i>any token followed by "malfunction" is most likely a disease</i>. 
+Thousands of such rules for each of the fine-grained type are inferred from the gazette lists during training.<br> 
+Since the rules are patterns on the entities, the recall is low as the single word entities and other variants of entities are missed. 
+For this reason, we link all the proper nouns found in the corpus to each other and propagate the type to all the entities in a cluster. The above-described system is implemented and being tested out by the users.<br>
+This work will be submitted to KDD'16.<br>
+<br>
+I have also implemented other NLP-related tasks in ePADD such as internal and external authority linking. The left image below shows a snapshot of internal authority linking, where an ambiguous name: <i>Peter</i> is expanded to an unambiguous name: <i>Peter Gizzi</i>; The right image shows the entity linking to external authority.<br>
+<table>
+<td><img src="images/auth.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;height:169px;width:425px;border-width:3px;border-color:black;border-style:outset" alt="Picture"></img>
+</td>
+<td>
+<img src="images/corr.png" style="margin-top: 5px; margin-bottom: 0px; margin-left: 0px; margin-right: 10px; border-width:0;height:135px;width:438px;border-width:3px;border-color:black;border-style:outset" alt="Picture"></img>
+</td>
+</p>
 <!--
 This article summarise various experiments I have performed in
 relation to the project.<br>

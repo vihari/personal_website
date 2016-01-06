@@ -12,37 +12,30 @@
 <hr>
 
 Guide: Dr. Bharat Singh Rajpurohit, Dr. Suman Kalyan Pal.<br>
-A project taken up for the design practicum course is a project on computer-human 
-interaction where a person can interact with the computing device through a 
-characteristic color emitting pen and a projector to project the screen of the 
-computing device on to any surface. Once projected, the surface can be used as a 
-Touch Screen; all this was done at a cost as low as 100 IndianRs. Here is a short 
-video of this product. This project also bagged first prize in open-house of the same course.
-Here is a short-video that demonstrates basic features: <br>
+What if we can transform the projector screen into a touch screen? 
+A technology which goes by the name "Smartboards" enables the presenter to interact with the board but is extremely costly. 
+This project is an attempt to enable the same but at a much lesser cost.<br>
+The system only required a <i>computing device, webcam, a small laser light, projector</i> and <i>a flat surface for projection.</i> 
+The system enables click, double-click, scroll and drawing.<br>
+Below is the link to a short video that demonstrates the basic features of the system. Observe that the person in the video was interacting with the system from the projection surface. <br>
 <div class="video">
   <iframe width="420" height="315" src="//www.youtube.com/embed/P9z3Jae0EyU" frameborder="0" allowfullscreen></iframe>
 </div>
 <br>
 
-Setup: A laser-tip I was holding in hand, projector, laptop with webcam made facing the red-light, an user who uses to manipulate with out impeding the line of sight of the camera.<br>
-This project involves
+The project involved
 <ul>
-<li>
-calibration for the transformation matrix between the projector coordinates and the camera coordinates.
-</li>
-<li>
-laser-tip/red light detection and thresholding. 
-</li>
-<li>
-once detected projects the projector coordinates onto the camera coordinates with calibration matrix.
-</li>
-<li>
-Windows event triggering. 
-</li>
-</li>
+  <li>
+    Calibration for the transformation matrix between the projector coordinates and the camera coordinates.
+  </li>
+  <li>
+    Laser-tip/red light detection and thresholding. 
+  </li>
+  <li>
+    Event (click, double-click e.t.c.) detection and triggering of the appropriate event.
+  </li>
 </ul>
-This software is also capable of recognising double clicks and is real-time, that one can use to draw over a scratch pad. 
-Code can be found <a href="https://github.com/vihari/TouchScreenProjector">here</a>.
+Source code can be found <a href="https://github.com/vihari/TouchScreenProjector">here</a>.
 
 <hr>
 </body>

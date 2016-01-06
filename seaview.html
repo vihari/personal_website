@@ -11,23 +11,23 @@
 </div>
 
 <hr>
-Seaview:<br>
+Seaview<br>
 Guide: <a href="http://xenon.stanford.edu/~hangal/">Dr. Sudheendra Hangal.</a><br>
-Seaview is a log file visualization software. The objective of the software is to aid the programmer in debugging, by aiding the visualization of log files. 
+Seaview is a log file visualization software. Log files can grow very big in size and finding faults or anomalies from the log is often a painful process; Seaview eases this process by adding semantics to the log based on the information on units and dimensions of the variables dumped into the log. 
 <p>
-  The java byte code shall be instrumented with <a href="https://github.com/hangal/unifi">Unifi</a> to infer unites and dimensions of various variables across class files. Instrumentation step also replaces the log statements that dump also the identity of the variable along with log. 
+  The tool depends on <a href="https://github.com/hangal/unifi">Unifi</a> software to infer the units and dimensions of the program variables and instruments the bytecode of the log generating java program.
 </p>
 <p>
-  This instrumented software when run will also dump anchors of the variables. Seaview then parses the log file supplemented with variable infos. An user can then avail these set of features:
+  With the aid of Unifi, Seaview will have a deeper sense of the log file that will enable various summarizations on the log as listed below.
   <ul>
     <li>
-      Visualise a colored log file, coloured according to the dimension, unit or variable.
+      Visualise a colored log file, colored according to the dimension or unit of the variable.
   </li>
     <li>
-      Visualise summary of variables that are grouped on variable or dimension or unit.
+      Visualise summary of the variables that are grouped on variable or dimension or unit.
       </li>
     <li>
-      Filter and group the logs based on variable or dimension or unit.
+      Filter and group the log lines based on variable or dimension or unit.
     </li>
     <li>
       Browse the code by clicking on the variables.
@@ -35,18 +35,8 @@ Seaview is a log file visualization software. The objective of the software is t
   </ul>
 </p>
 
-This will ease the analysis of the log files and hopefully subside to some extent the pain of debugging/program correctness. Further information regarding the software can be found <a href="https://github.com/vihari/Seaview">here</a><br>
-live demo <a href="http://vihari.github.io/Seaview/">here</a>, use the demo with test logs in the repository. <br> 
-
-fall backs of this Software are:<br>
-<ul>
-<li>
-Though one can efficiently load/filter and group log file in constant time complexity. Things get slow and inefficient when dealing with log files more than 100 MB.
-</li>
-<li>
-Also when instrumenting the software, supplementary info that unify dumps can sometimes be huge when the source code is large. 
-</li>
-</ul>
+The features will ease the analysis of the log files and hopefully subside to some extent the pain of debugging and ensuring program correctness. Further information regarding the software can be found <a href="https://github.com/vihari/Seaview">here</a><br>
+Catch a live demo <a href="http://vihari.github.io/Seaview/">here</a>, use the demo with the test log that can be found <a href='https://github.com/vihari/Seaview/blob/master/test/muse.log' target='_blank'>here</a>. <br> 
 <br>
 <strong>Snapshots</strong><br>
 <table class="snaps">
